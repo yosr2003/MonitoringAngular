@@ -1,0 +1,463 @@
+    <div class="grid">
+        <div class="col-12 lg:col-6 xl:col-3">
+            <div class="card mb-0">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3">All events</span>
+                        <div class="text-900 font-medium text-xl">{{size}}</div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                        <i class="pi pi-calendar text-blue-500 text-xl"></i>
+
+                    </div>
+                </div>
+                <span class="text-500">since last visit</span>
+            </div>
+        </div>
+        <div class="col-12 lg:col-6 xl:col-3">
+            <div class="card mb-0">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3">Succeeded events</span>
+                        <div class="text-900 font-medium text-xl">{{nbSucc}}</div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                        <i class="pi pi-check text-orange-500 text-xl"></i>
+
+                    </div>
+                </div>
+    
+                <span class="text-500">sent</span>
+            </div>
+        </div>
+        <div class="col-12 lg:col-6 xl:col-3">
+            <div class="card mb-0">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3">Failed events</span>
+                        <div class="text-900 font-medium text-xl">{{nbFail}}</div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                        <i class="pi pi-times text-cyan-500 text-xl"></i>
+
+                    </div>
+                </div>
+      
+                <span class="text-500">sent</span>
+            </div>
+        </div>
+        <div class="col-12 lg:col-6 xl:col-3">
+            <div class="card mb-0">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3">Events</span>
+                        <div class="text-900 font-medium text-xl">{{notificationCount2}} Unread</div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-purple-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                        <i class="pi pi-comment text-purple-500 text-xl"></i>
+                    </div>
+                    
+                </div>
+              
+                <span class="text-500">Unread</span>
+            </div>
+        </div>
+        <p-toast position="top-right"></p-toast>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="col-12 xl:col-6">
+            <div class="card">
+                <h5>All Events</h5>
+                <p-table [value]="events" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>
+                                <div style="display: flex; align-items: center;">
+                                    Event_Id
+                                    <button pButton pRipple type="button" icon="pi pi-filter" class="p-button-sm"
+                                            (click)="openFilter()" style="margin-left: 0.5rem;"></button>
+                                </div>
+                            </th>
+                            <th>
+                                <div style="display: flex; align-items: center;">
+                                    Event Type
+                                    <button pButton pRipple type="button" icon="pi pi-filter" class="p-button-sm"
+                                            (click)="openFilter2()" style="margin-left: 0.5rem;"></button>
+                                </div>
+                            </th>
+                            <th>
+                                <div style="display: flex; align-items: center;">
+                                    Timestamp
+                                    <button pButton pRipple type="button" icon="pi pi-filter" class="p-button-sm"
+                                            (click)="openFilter3()" style="margin-left: 0.5rem;"></button>
+                                </div>
+                            </th>
+                            <th>View</th>
+                            <th>Send</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-event>
+                        <tr>
+                            <td style="width: 15%; min-width: 5rem;">{{ event.eventId }}</td>
+                            <td style="width: 35%; min-width: 7rem;">{{ event.eventType }}</td>
+                            <td style="width: 35%; min-width: 8rem;">{{ event.timestamp | date: 'short' }}</td>
+                            <td style="width: 15%;">
+                                <button pButton pRipple type="button" icon="pi pi-search"
+                                        (click)="showDialog(event)" class="p-button p-component p-button-text p-button-icon-only">
+                                </button>
+                            </td>
+                            <td style="width: 15%;">
+                                <button pButton pRipple type="button" icon="pi pi-send"
+                                        (click)="showEmailDialog(event)" class="p-button p-component p-button-text p-button-icon-only">
+                                </button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+            
+
+
+
+
+
+            <p-dialog header="Filter by Event status" [(visible)]="displayFilterDialogEventId" [modal]="true" [responsive]="true"
+            [style]="{ 'width': '30vw', 'height': '30vh' }" [contentStyle]="{ 'padding': '2rem' }">
+            <div style="display: flex; gap: 1rem; align-items: center;">
+              <p-dropdown [options]="eventStatusOptions" (onChange)="onEventStatusChange($event)" placeholder="Select Event Status"></p-dropdown>
+              <button pButton pRipple type="button" label="Apply" (click)="applyFilterEventId(selectedEventStatus)"></button>
+            </div>
+          </p-dialog>
+          
+  
+  
+  <p-dialog header="Filter by Event Type" [(visible)]="displayFilterDialogEventType" [modal]="true" [responsive]="true"
+  [style]="{ 'width': '30vw', 'height': '50vh' }" [contentStyle]="{ 'padding': '2rem' }">
+  <div style="display: flex; align-items: center; justify-content: space-between;">
+    <p-dropdown [options]="eventTypes" (onChange)="onEventTypeChange($event)" placeholder="Select Event Type" style="flex: 1; margin-right: 1rem;"></p-dropdown>
+    <button pButton pRipple type="button" label="Apply" (click)="applyFilterEventType()"></button>
+  </div>
+</p-dialog>
+
+
+
+
+  
+<p-dialog header="Filter by Timestamp" [(visible)]="displayFilterDialogTimestamp" [modal]="true" [responsive]="true"
+[style]="{ 'width': '50vw', 'height': '70vh' }" [contentStyle]="{ 'padding': '2rem' }">
+<div style="display: flex; align-items: center; justify-content: space-between;">
+    <label for="startDate" style="margin-right: 1rem;">Start_Date:</label>
+  <p-calendar [showIcon]="true" inputId="startDate" #startDate style="margin-right: 1rem;"></p-calendar>
+  <label for="EndDate" style="margin-right: 1rem;">End_Date:</label>
+  <p-calendar [showIcon]="true" inputId="endDate" #endDate style="margin-right: 1rem;"></p-calendar>
+  <button pButton pRipple type="button" label="Apply" (click)="applyFilterTimestamp(startDate.value, endDate.value)"></button>
+</div>
+</p-dialog>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+            <p-dialog header="More Details" [(visible)]="displayDialog" [modal]="true" [responsive]="true"
+                      [style]="{ 'width': '60vw', 'border-radius': '8px' }" [contentStyle]="{ 'padding': '2rem' }">
+                <div class="card" style="padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f4f4f9;">
+                    <h5 style="margin-bottom: 1.5rem; font-size: 1.5rem; color: #495057; font-weight: 600;">Event Details</h5>
+                    <p-table [value]="[selectedEventDetails]" [paginator]="false" responsiveLayout="scroll"
+                             [tableStyle]="{ 'margin-bottom': '1.5rem' }">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="color: #495057; font-weight: 600;">Aggregate Id</th>
+                                <th style="color: #495057; font-weight: 600;">Id User</th>
+                                <th style="color: #495057; font-weight: 600;">Card Id</th>
+                                <th style="color: #495057; font-weight: 600;">Init Account Id</th>
+                                <th style="color: #495057; font-weight: 600;">Prepaid Card Number</th>
+                                <th style="color: #495057; font-weight: 600;">Amount</th>
+                                <th style="color: #495057; font-weight: 600;">Error Reason</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-detail>
+                            <tr>
+                                <td style="width: 15%; min-width: 5rem;">{{ detail.aggregateId }}</td>
+                                <td style="width: 15%; min-width: 5rem;">{{ detail.eventData.userId }}</td>
+                                <td style="width: 15%; min-width: 5rem;">{{ detail.eventData.cardId }}</td>
+                                <td style="width: 15%; min-width: 5rem;">{{ detail.eventData.initAccountId }}</td>
+                                <td style="width: 20%; min-width: 7rem;">{{ detail.eventData.prepaidCardNumber }}</td>
+                                <td style="width: 10%; min-width: 5rem;">{{ detail.eventData.amount }}</td>
+                                <td style="width: 20%; min-width: 7rem;">{{ detail.eventData.errorDetails?.reason }}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </p-dialog>
+            
+            
+            <!-- <div class="card"> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <!-- <div class="flex justify-content-between align-items-center mb-5">
+                    <h5>Event Monitoring</h5>
+                    <div>
+                        <button pButton type="button" icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text p-button-plain" (click)="menu.toggle($event)"></button>
+                        <p-menu #menu [popup]="true" [model]="items"></p-menu>
+                    </div>
+                </div>
+                
+                <ul class="list-none p-0 m-0">
+                    <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                        <div>
+                            <span class="text-900 font-medium mr-2 mb-1 md:mb-0">User Login Event</span>
+                            <div class="mt-1 text-600">Authentication</div>
+                        </div>
+                        <div class="mt-2 md:mt-0 flex align-items-center">
+                            <i class="pi pi-check text-green-500 text-xl"></i>
+                            <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem ml-3" [ngStyle]="{height: '8px'}">
+                                <div class="bg-green-500 h-full" [ngStyle]="{width: '80%'}"></div>
+                            </div>
+                            <span class="text-green-500 ml-3 font-medium">80% Success</span>
+                        </div>
+                    </li>
+                    <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                        <div>
+                            <span class="text-900 font-medium mr-2 mb-1 md:mb-0">Data Sync Event</span>
+                            <div class="mt-1 text-600">Data Management</div>
+                        </div>
+                        <div class="mt-2 md:mt-0 flex align-items-center">
+                            <i class="pi pi-times text-red-500 text-xl"></i>
+                            <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem ml-3" [ngStyle]="{height: '8px'}">
+                                <div class="bg-red-500 h-full" [ngStyle]="{width: '20%'}"></div>
+                            </div>
+                            <span class="text-red-500 ml-3 font-medium">20% Failure</span>
+                        </div>
+                    </li>
+                    <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                        <div>
+                            <span class="text-900 font-medium mr-2 mb-1 md:mb-0">File Upload Event</span>
+                            <div class="mt-1 text-600">File Management</div>
+                        </div>
+                        <div class="mt-2 md:mt-0 flex align-items-center">
+                            <i class="pi pi-check text-green-500 text-xl"></i>
+                            <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem ml-3" [ngStyle]="{height: '8px'}">
+                                <div class="bg-green-500 h-full" [ngStyle]="{width: '90%'}"></div>
+                            </div>
+                            <span class="text-green-500 ml-3 font-medium">90% Success</span>
+                        </div>
+                    </li>
+                    <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                        <div>
+                            <span class="text-900 font-medium mr-2 mb-1 md:mb-0">Database Backup Event</span>
+                            <div class="mt-1 text-600">Backup</div>
+                        </div>
+                        <div class="mt-2 md:mt-0 flex align-items-center">
+                            <i class="pi pi-times text-red-500 text-xl"></i>
+                            <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem ml-3" [ngStyle]="{height: '8px'}">
+                                <div class="bg-red-500 h-full" [ngStyle]="{width: '10%'}"></div>
+                            </div>
+                            <span class="text-red-500 ml-3 font-medium">10% Failure</span>
+                        </div>
+                    </li>
+                </ul> -->
+                
+
+<!-- 
+            </div> -->
+        </div>
+
+
+
+
+
+
+
+
+
+<!-- --------------------------------------------------------- -->
+
+        <div class="col-12 xl:col-6">
+            <div class="card">
+                <h5>Events overview</h5>
+                <p-chart type="bar" [data]="chartData" [options]="chartOptions"></p-chart>
+            </div>
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- <div class="card">
+                <div class="flex align-items-center justify-content-between mb-4">
+                  <h5>Event Notifications</h5>
+                  <div>
+                    <button pButton type="button" icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text p-button-plain" (click)="menu.toggle($event)"></button>
+                    <p-menu #menu [popup]="true" [model]="items"></p-menu>
+                  </div>
+                </div>
+              
+                <span class="block text-600 font-medium mb-3">TODAY</span>
+                <ul class="p-0 mx-0 mt-0 mb-4 list-none">
+                  <li *ngFor="let event of getEventsToday()" class="flex align-items-center py-2 border-bottom-1 surface-border">
+                    <div class="w-3rem h-3rem flex align-items-center justify-content-center border-circle mr-3 flex-shrink-0"
+                         [ngClass]="{'bg-green-100': getResult(event) === 'Success', 'bg-red-100': getResult(event) === 'Failure'}">
+                      <i class="pi pi-check text-xl" [ngClass]="{'text-green-500': getResult(event) === 'Success', 'text-red-500': getResult(event) === 'Failure'}"></i>
+                    </div>
+                    <span class="text-900 line-height-3">Event {{ getEventType(event) }}
+                      <span class="text-700"> was {{ getResult(event) }} for 
+                        <span [ngClass]="{'text-green-500': getResult(event) === 'Success', 'text-red-500': getResult(event) === 'Failure'}">{{ getUser(event) }}</span>
+                      </span>
+                    </span>
+                  </li>
+                </ul>
+              
+                <span class="block text-600 font-medium mb-3">YESTERDAY</span>
+                <ul class="p-0 m-0 list-none">
+                  <li *ngFor="let event of getEventsYesterday()" class="flex align-items-center py-2 border-bottom-1 surface-border">
+                    <div class="w-3rem h-3rem flex align-items-center justify-content-center border-circle mr-3 flex-shrink-0"
+                         [ngClass]="{'bg-green-100': getResult(event) === 'Success', 'bg-red-100': getResult(event) === 'Failure'}">
+                      <i class="pi pi-check text-xl" [ngClass]="{'text-green-500': getResult(event) === 'Success', 'text-red-500': getResult(event) === 'Failure'}"></i>
+                    </div>
+                    <span class="text-900 line-height-3">Event {{ getEventType(event) }}
+                      <span class="text-700"> was {{ getResult(event) }} for 
+                        <span [ngClass]="{'text-green-500': getResult(event) === 'Success', 'text-red-500': getResult(event) === 'Failure'}">{{ getUser(event) }}</span>
+                      </span>
+                    </span>
+                  </li>
+                </ul>
+              </div> -->
+
+              <div class="card">
+                <div class="flex align-items-center justify-content-between mb-4">
+                    <h5>Event Notifications</h5>
+                    <div>
+                        <button pButton type="button" icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text p-button-plain" (click)="menu.toggle($event)"></button>
+                        <p-menu #menu [popup]="true" [model]="items"></p-menu>
+                    </div>
+                </div>
+            
+                <ng-container *ngIf="getEventsToday().length === 0 && getEventsYesterday().length === 0; else notifications">
+                    <span class="block text-600 font-medium mb-3">No notifications found</span>
+                </ng-container>
+            
+                <ng-template #notifications>
+                    <span class="block text-600 font-medium mb-3">TODAY</span>
+                    <ul class="p-0 mx-0 mt-0 mb-4 list-none">
+                        <li *ngFor="let event of getEventsToday()" class="flex align-items-center py-2 border-bottom-1 surface-border">
+                            <div class="w-3rem h-3rem flex align-items-center justify-content-center border-circle mr-3 flex-shrink-0"
+                                 [ngClass]="{'bg-green-100': getResult(event) === 'Success', 'bg-red-100': getResult(event) === 'Failure'}">
+                                <i class="pi pi-check text-xl" [ngClass]="{'text-green-500': getResult(event) === 'Success', 'text-red-500': getResult(event) === 'Failure'}"></i>
+                            </div>
+                            <span class="text-900 line-height-3">Event {{ getEventType(event) }}
+                              <span class="text-700"> was {{ getResult(event) }} for 
+                                <span [ngClass]="{'text-green-500': getResult(event) === 'Success', 'text-red-500': getResult(event) === 'Failure'}">{{ getUser(event) }}</span>
+                              </span>
+                            </span>
+                        </li>
+                    </ul>
+            
+                    <span class="block text-600 font-medium mb-3">YESTERDAY</span>
+                    <ul class="p-0 m-0 list-none">
+                        <li *ngFor="let event of getEventsYesterday()" class="flex align-items-center py-2 border-bottom-1 surface-border">
+                            <div class="w-3rem h-3rem flex align-items-center justify-content-center border-circle mr-3 flex-shrink-0"
+                                 [ngClass]="{'bg-green-100': getResult(event) === 'Success', 'bg-red-100': getResult(event) === 'Failure'}">
+                                <i class="pi pi-check text-xl" [ngClass]="{'text-green-500': getResult(event) === 'Success', 'text-red-500': getResult(event) === 'Failure'}"></i>
+                            </div>
+                            <span class="text-900 line-height-3">Event {{ getEventType(event) }}
+                              <span class="text-700"> was {{ getResult(event) }} for 
+                                <span [ngClass]="{'text-green-500': getResult(event) === 'Success', 'text-red-500': getResult(event) === 'Failure'}">{{ getUser(event) }}</span>
+                              </span>
+                            </span>
+                        </li>
+                    </ul>
+                </ng-template>
+            </div>
+            
+              
+
+
+
+
+
+
+
+
+
+    </div>
+</div>
+
+
+<!-- ------------------------------------------email--------------------------- -->
+<p-dialog [(visible)]="displayEmailDialog" [modal]="true" [closable]="false" [style]="{width: '50vw'}">
+    <div class="p-fluid" style="padding: 1rem;">
+        <h2 style="border-bottom: 2px solid #007ad9; padding-bottom: 0.5rem;">Send Email</h2>
+        <div class="p-field" style="margin-bottom: 1.5rem;">
+            <label for="to" style="display: block; font-weight: bold; margin-bottom: 0.5rem;">To:</label>
+            <input id="to" type="text" pInputText [(ngModel)]="email.to" style="width: 100%; border: none; border-bottom: 1px solid #ccc;">
+        </div>
+        <div class="p-field" style="margin-bottom: 1.5rem;">
+            <label for="subject" style="display: block; font-weight: bold; margin-bottom: 0.5rem;">Subject:</label>
+            <input id="subject" type="text" pInputText [(ngModel)]="email.subject" style="width: 100%; border: none; border-bottom: 1px solid #ccc;">
+        </div>
+        <div class="p-field">
+            <label for="body" style="display: block; font-weight: bold; margin-bottom: 0.5rem;">Body:</label>
+            <textarea id="body" rows="10" pInputTextarea [(ngModel)]="email.body" style="width: 100%; border: none; border-bottom: 1px solid #ccc;"></textarea>
+        </div>
+    </div>
+    <p-footer>
+        <button pButton label="Send" icon="pi pi-check" (click)="sendEmail()" class="p-button p-component p-button-primary"></button>
+        <button pButton label="Cancel" icon="pi pi-times" class="p-button-secondary p-component" (click)="displayEmailDialog=false"></button>
+    </p-footer>
+</p-dialog>

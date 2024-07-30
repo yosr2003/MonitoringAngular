@@ -1,0 +1,40 @@
+<div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+    <div class="flex flex-column align-items-center justify-content-center">
+        <!-- <img src="assets/layout/images/{{layoutService.config().colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg" alt="Sakai logo" class="mb-5 w-6rem flex-shrink-0">                 -->
+        <div style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgb(255, 94, 0) 80%);">
+            <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
+                <div class="text-center mb-5">
+                    <img src="assets/layout/images/imageLogo.png" alt="Image" height="50" class="mb-3">
+                    <div class="text-800 text-2xl font-medium mb-3" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;" >
+                        <span style="color: hsl(22, 89%, 49%);">
+                            <strong>Votre histoire</strong>
+                        </span>
+                        <strong> est aussi la nôtre</strong>
+                    </div>
+                    <span class="text-600 font-medium">Sign in to continue</span>
+                </div>
+  
+                <div>
+                    <label for="email1" class="block text-900 text-sm font-medium mb-2" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+                        <i class="pi pi-envelope mr-2"></i>Identifiant
+                    </label>
+                    <input id="email1" type="text" placeholder="Email address" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem" [(ngModel)]="auth.email">
+  
+                    <label for="password1" class="block text-900 text-sm font-medium mb-2" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+                        <i class="pi pi-lock mr-2"></i>Code secret
+                    </label>
+                    <p-password id="password1" placeholder="Password" [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem" [(ngModel)]="auth.password"></p-password>
+  
+                    <div class="flex align-items-center justify-content-between mb-5 gap-5">
+                        <div class="flex align-items-center">
+                            <p-checkbox id="rememberme1" [binary]="true" styleClass="mr-2"></p-checkbox>
+                            <label for="rememberme1" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Remember me</label>
+                        </div>
+                        <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color); font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Forgot password?</a>
+                    </div>
+                    <button pButton pRipple label="Sign In" class="w-full p-3 text-xl" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;" (click)="login()"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
